@@ -1,11 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./Form.module.css";
 
-const Form = () => {
+const Form = ({onAddTodo}) => {
+    const [inputText, setInputText] = useState('');
+
+    const handleChange = (e) => {
+        setInputText(e.target.value);
+        console.log(inputText);
+    }
+
   return (
     <div className={styles.container}>
-      <input className={styles.input} type="text" value="Todo text" />
-      <button className={styles.button}>Add Todo</button>
+      <input className={styles.input}  value={inputText} placeholder="Type Todo" onChange={handleChange}/>
+      <button className={styles.button} onClick={() => onAddTodo(inputText)}>Add Todo</button>
     </div>
   );
 };

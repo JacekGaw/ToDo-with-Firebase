@@ -1,0 +1,7 @@
+.list_wrapper {
+    width: 100%;
+    padding: 10%;
+    display: flex;
+    justify-content: center;
+    background-color: #b3cde0;
+}
