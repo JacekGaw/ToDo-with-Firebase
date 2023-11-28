@@ -1,0 +1,13 @@
+.header_container {
+    width: 100%;
+    background-color: #03396c;
+    padding: 20px;
+}
+
+.header_title {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+}
