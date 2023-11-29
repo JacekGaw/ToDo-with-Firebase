@@ -4,53 +4,80 @@ import Header from "./components/Header";
 import Form from "./components/Form";
 import List from "./components/List";
 import { db } from "./firebase";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import {
+  query,
+  collection,
+  onSnapshot,
+  updateDoc,
+  doc,
+  addDoc,
+  serverTimestamp,
+  orderBy,
+  deleteDoc,
+} from "firebase/firestore";
 
 const App = () => {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, 'todos'));
+    const q = query(collection(db, "todos"), orderBy("timestamp"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let todosArr = [];
       querySnapshot.forEach((doc) => {
-        todosArr.push({...doc.data(), id: doc.id})
+        todosArr.push({ ...doc.data(), id: doc.id });
       });
       setTodoList(todosArr);
-    })
+    });
     return () => unsubscribe();
-  }, [])
+  }, []);
 
-  const handleAddTodo = (inputText) => {
-    setTodoList((prevTodoList) => {
-      return [
-        {
-          todoText: inputText,
-          active: true,
-        },
-        ...prevTodoList,
-      ];
+  const handleAddTodo = async (inputText) => {
+    // setTodoList((prevTodoList) => {
+    //   return [
+    //     {
+    //       todoText: inputText,
+    //       active: true,
+    //     },
+    //     ...prevTodoList,
+    //   ];
+    // });
+    const timestamp = serverTimestamp();
+    await addDoc(collection(db, "todos"), {
+      todoText: inputText,
+      active: true,
+      timestamp: timestamp,
     });
   };
-
-  const handleChangeStatus = (todoItem, actionToExecute) => {
+  // THIS CODE WORKS ONLY FOR LOCAL TODO APP
+  // const handleChangeStatus = (todoItem, actionToExecute) => {
+  //   if (actionToExecute === "changeActive") {
+  //     setTodoList((prevState) => {
+  //       const newState = prevState.filter((item) => {
+  //         return item.todoText !== todoItem.todoText;
+  //       });
+  //       const rev = !todoItem.active;
+  //       return todoItem.active
+  //         ? [{ todoText: todoItem.todoText, active: rev }, ...newState]
+  //         : [...newState, { todoText: todoItem.todoText, active: rev }];
+  //     });
+  //   } else if (actionToExecute === "delete") {
+  //     setTodoList((prevState) => {
+  //       const newState = prevState.filter((item) => {
+  //         return item.todoText !== todoItem.todoText;
+  //       });
+  //       return newState;
+  //     });
+  //   }
+  // };
+  const handleChangeStatus = async (todoItem, actionToExecute) => {
     if (actionToExecute === "changeActive") {
-      setTodoList((prevState) => {
-        const newState = prevState.filter((item) => {
-          return item.todoText !== todoItem.todoText;
-        });
-        const rev = !todoItem.active;
-        return todoItem.active
-          ? [{ todoText: todoItem.todoText, active: rev }, ...newState]
-          : [...newState, { todoText: todoItem.todoText, active: rev }];
+      const timestamp = serverTimestamp();
+      await updateDoc(doc(db, "todos", todoItem.id), {
+        active: !todoItem.active,
+        timestamp: timestamp,
       });
     } else if (actionToExecute === "delete") {
-      setTodoList((prevState) => {
-        const newState = prevState.filter((item) => {
-          return item.todoText !== todoItem.todoText;
-        });
-        return newState;
-      });
+      await deleteDoc(doc(db, "todos", todoItem.id));
     }
   };
 

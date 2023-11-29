@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ListItems.module.css";
-import { v4 as uuidv4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -13,7 +12,7 @@ const ListItems = ({ todoList, isActive, changeStatus }) => {
     <ul className={styles.list__container}>
       {todoList.map((todoItem) => (
         <li
-          key={uuidv4()}
+          key={todoItem.id}
           className={
             isActive ? styles.list__item_active : styles.list__item_inactive
           }
