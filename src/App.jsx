@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./App.module.css";
 import Header from "./components/Header";
 import Form from "./components/Form";
 import List from "./components/List";
+import { db } from "./firebase";
+import { query, collection, onSnapshot } from "firebase/firestore";
 
 const App = () => {
-  const [todoList, setTodoList] = useState([
-    {
-      todoText: "Initial Todo",
-      active: true,
-    },
-    {
-      todoText: "Initial done second",
-      active: false,
-    },
-  ]);
+  const [todoList, setTodoList] = useState([]);
+
+  useEffect(() => {
+    const q = query(collection(db, 'todos'));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let todosArr = [];
+      querySnapshot.forEach((doc) => {
+        todosArr.push({...doc.data(), id: doc.id})
+      });
+      setTodoList(todosArr);
+    })
+    return () => unsubscribe();
+  }, [])
 
   const handleAddTodo = (inputText) => {
     setTodoList((prevTodoList) => {
