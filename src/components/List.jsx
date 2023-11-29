@@ -1,16 +1,21 @@
 import React from "react";
 import styles from "./List.module.css";
-import ActiveList from "./ActiveList";
-import InactiveList from "./InactiveList";
+import ListItems from "./ListItems";
 
-const List = ({ listOfTodos }) => {
+const List = ({ listOfTodos, onChangeStatus }) => {
 
   const activeTodosList = listOfTodos.filter((todoItem) => todoItem.active === true);
   const inactiveTodosList = listOfTodos.filter((todoItem) => todoItem.active === false);
+
+  const handleChangeStatus = (todoItem, actionToExecute) => {
+    onChangeStatus(todoItem, actionToExecute);
+  }
   return (
     <section className={styles.list_wrapper}>
-      <ActiveList activeTodos={activeTodosList} />
-      <InactiveList inactiveTodos={inactiveTodosList} />
+      <h3>Active:</h3>
+      <ListItems todoList={activeTodosList} isActive={true} changeStatus={handleChangeStatus}/>
+      <h3>Done:</h3>
+      <ListItems todoList={inactiveTodosList} isActive={false} changeStatus={handleChangeStatus} />
     </section>
   );
 };

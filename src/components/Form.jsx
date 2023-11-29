@@ -6,13 +6,17 @@ const Form = ({onAddTodo}) => {
 
     const handleChange = (e) => {
         setInputText(e.target.value);
-        console.log(inputText);
+    }
+
+    const clickAdd = () => {
+      onAddTodo(inputText);
+      setInputText("");
     }
 
   return (
     <div className={styles.container}>
       <input className={styles.input}  value={inputText} placeholder="Type Todo" onChange={handleChange}/>
-      <button className={styles.button} onClick={() => onAddTodo(inputText)}>Add Todo</button>
+      <button className={styles.button} onClick={clickAdd}>Add Todo</button>
     </div>
   );
 };

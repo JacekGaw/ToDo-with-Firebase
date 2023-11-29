@@ -28,12 +28,33 @@ const App = () => {
     });
   };
 
+  const handleChangeStatus = (todoItem, actionToExecute) => {
+    if (actionToExecute === "changeActive") {
+      setTodoList((prevState) => {
+        const newState = prevState.filter((item) => {
+          return item.todoText !== todoItem.todoText;
+        });
+        const rev = !todoItem.active;
+        return todoItem.active
+          ? [{ todoText: todoItem.todoText, active: rev }, ...newState]
+          : [...newState, { todoText: todoItem.todoText, active: rev }];
+      });
+    } else if (actionToExecute === "delete") {
+      setTodoList((prevState) => {
+        const newState = prevState.filter((item) => {
+          return item.todoText !== todoItem.todoText;
+        });
+        return newState;
+      });
+    }
+  };
+
   return (
     <div className={styles.container}>
       <main className={styles.main_container}>
         <Header />
         <Form onAddTodo={handleAddTodo} />
-        <List listOfTodos={todoList} />
+        <List listOfTodos={todoList} onChangeStatus={handleChangeStatus} />
       </main>
     </div>
   );
