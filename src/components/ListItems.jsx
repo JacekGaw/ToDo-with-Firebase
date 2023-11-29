@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./ListItems.module.css";
 import { v4 as uuidv4 } from "uuid";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faCircleCheck,
+  faTrashArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ListItems = ({ todoList, isActive, changeStatus }) => {
-
-
   return (
     <ul className={styles.list__container}>
       {todoList.map((todoItem) => (
@@ -17,8 +19,24 @@ const ListItems = ({ todoList, isActive, changeStatus }) => {
           }
         >
           {todoItem.todoText}
-          <button onClick={() => changeStatus(todoItem, "changeActive")}>{isActive ? "Done" : "Restore"}</button>
-          <button onClick={() => changeStatus(todoItem, "delete")}><FontAwesomeIcon icon={faTrash}/></button>
+          <div className={styles.button__container}>
+            <button
+              onClick={() => changeStatus(todoItem, "changeActive")}
+              className={styles.button}
+            >
+              {isActive ? (
+                <FontAwesomeIcon icon={faCircleCheck} size="xl" />
+              ) : (
+                <FontAwesomeIcon icon={faTrashArrowUp} size="xl" />
+              )}
+            </button>
+            <button
+              onClick={() => changeStatus(todoItem, "delete")}
+              className={styles.button}
+            >
+              <FontAwesomeIcon icon={faTrash} size="xl" />
+            </button>
+          </div>
         </li>
       ))}
     </ul>

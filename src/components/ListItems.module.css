@@ -19,3 +19,13 @@
     display: flex;
     justify-content: space-between;
 }
+
+.button__container {
+    display: flex;
+    flex-direction: row;
+}
+.button {
+    background: none;
+    border: none;
+
+}
