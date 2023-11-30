@@ -14,7 +14,12 @@ const Form = ({ onAddTodo }) => {
     }
     setInputText("");
   };
-
+  const handleEnter = (e) => {
+    if(e.key === 'Enter' && inputText.length > 0){
+      onAddTodo(inputText);
+      setInputText("");
+    }
+  }
   return (
     <div className={styles.container}>
       <input
@@ -22,6 +27,8 @@ const Form = ({ onAddTodo }) => {
         value={inputText}
         placeholder="Type Todo"
         onChange={handleChange}
+        onKeyDown={handleEnter}
+        autoFocus
       />
       <button className={styles.button} onClick={clickAdd}>
         Add Todo
