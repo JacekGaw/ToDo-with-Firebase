@@ -1,4 +1,9 @@
-# Getting Started with Create React App
+# ToDo App with Firebase 
+
+Simple Todo App with Firebase Firestore integration. Created to practise core react concepts and working with Firebase. Using CSS modules. File .env is not included so you need to set up your own. To do that, go on Firebase website, create new Firestore project, copy and paste your individual keys into the .env_sample file and then rename it to .env. There you go. ToDo App for personal use with database setup.
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
