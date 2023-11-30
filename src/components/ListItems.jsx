@@ -17,7 +17,7 @@ const ListItems = ({ todoList, isActive, changeStatus }) => {
             isActive ? styles.list__item_active : styles.list__item_inactive
           }
         >
-          {todoItem.todoText}
+          <p>{todoItem.todoText}</p>
           <div className={styles.button__container}>
             <button
               onClick={() => changeStatus(todoItem, "changeActive")}
