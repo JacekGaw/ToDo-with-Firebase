@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import Header from "./components/Header";
 import Form from "./components/Form";
 import List from "./components/List";
+import Deleters from "./components/Deleters";
 import { db } from "./firebase";
 import {
   query,
@@ -81,11 +82,30 @@ const App = () => {
     }
   };
 
+  const deleteList = (method) => {
+    const arr = method;
+    arr.forEach((item) => {
+      deleteDoc(doc(db, "todos", item.id));
+    });
+    setTodoList(arr);
+  };
+
+  const handleDeleteList = (whatToDelete) => {
+    if (whatToDelete === "all") {
+      deleteList([...todoList]);
+    } else if (whatToDelete === "active") {
+      deleteList(todoList.filter((item) => item.active === true));
+    } else if (whatToDelete === "done") {
+      deleteList(todoList.filter((item) => item.active === false));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <main className={styles.main_container}>
         <Header />
         <Form onAddTodo={handleAddTodo} />
+        <Deleters onDeleteList={handleDeleteList} />
         <List listOfTodos={todoList} onChangeStatus={handleChangeStatus} />
       </main>
     </div>

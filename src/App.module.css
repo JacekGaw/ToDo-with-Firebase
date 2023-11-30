@@ -1,4 +1,5 @@
 .main_container {
+    min-width: 400px;
     width: 50%;
     margin: 10% auto;
     border-radius: 20%;
