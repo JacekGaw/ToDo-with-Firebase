@@ -20,6 +20,7 @@ const Form = ({ onAddTodo }) => {
       setInputText("");
     }
   }
+  
   return (
     <div className={styles.container}>
       <input
